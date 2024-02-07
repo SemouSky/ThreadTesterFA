@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -29,6 +30,25 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    publishing{
+        singleVariant("release"){
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+publishing{
+    publications{
+        create<MavenPublication>("release"){
+            groupId = "com.github.SemouSky"
+            artifactId = "ThreadTesterFA"
+            version = "0.1.0"
+
+            afterEvaluate { from(components["release"]) }
+        }
     }
 }
 
